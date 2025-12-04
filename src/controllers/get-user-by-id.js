@@ -6,7 +6,7 @@ export class GetUserByIdController {
         try {
             const getUserUseCase = new GetUserByIdUseCase()
             const user = await getUserUseCase.execute(httpRequest.params.userId)
-            ok(user)
+            return ok(user)
         } catch (error) {
             console.log(error)
             internalServerError()
