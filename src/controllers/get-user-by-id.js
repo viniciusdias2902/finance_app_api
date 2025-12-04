@@ -7,9 +7,9 @@ export class GetUserByIdController {
         try {
             const getUserUseCase = new GetUserByIdUseCase()
             const userId = httpRequest.params.userId
-            const isUserIdValid = validator.isUUID()
+            const isUserIdValid = validator.isUUID(userId)
             if (!isUserIdValid) {
-                badRequest({ message: 'The provided id is not valid' })
+                return badRequest({ message: 'The provided id is not valid' })
             }
             const user = await getUserUseCase.execute(userId)
             return ok(user)
