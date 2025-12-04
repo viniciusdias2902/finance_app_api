@@ -20,3 +20,10 @@ export const internalServerError = () => {
         },
     }
 }
+
+export const ok = () => ({
+    statusCode: 500,
+    body: {
+        errorMessage: 'Internal server error',
+    },
+})
