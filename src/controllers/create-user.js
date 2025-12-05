@@ -40,9 +40,11 @@ export class CreateUserController {
 
             const createUserUseCase = new CreateUserUseCase()
             const createdUser = await createUserUseCase.execute(params)
+
             if (!createdUser) {
                 return notFound({ message: 'User not found' })
             }
+
             return created(createdUser)
         } catch (error) {
             if (error instanceof EmailAreadyInUseError) {
