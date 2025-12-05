@@ -5,7 +5,6 @@ import { PostgresUpdateUserRepository } from '../repositories/postgres/update-us
 export class UpdateUserUseCase {
     async execute(userId, updateUserParams) {
         if (updateUserParams.email) {
-            console.log('tem email')
             const postgresGetUserByEmailRepository =
                 new PostgresGetUserByEmailRepository()
             const userWithProvidedEmail =

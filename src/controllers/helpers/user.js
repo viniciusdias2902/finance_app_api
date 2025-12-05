@@ -14,7 +14,7 @@ export const invalidEmailResponse = () =>
 export const invalidIdResponse = () =>
     badRequest({ message: 'The provided id is not valid' })
 
-export const checkIfPasswordIsValid = (password) => password.length < 6
+export const checkIfPasswordIsValid = (password) => password.length > 6
 
 export const checkIfEmailisValid = (email) => validator.isEmail(email)
 

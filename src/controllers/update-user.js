@@ -1,21 +1,21 @@
 import { badRequest, internalServerError, ok } from './helpers/http.js'
 import { UpdateUserUseCase } from '../use-cases/update-user.js'
 import { EmailAreadyInUseError } from '../errors/user.js'
-import { notFound } from './helpers/http.js'
 import {
+    notFound,
     checkIfEmailisValid,
     checkIfIdIsValid,
     checkIfPasswordIsValid,
     invalidEmailResponse,
     invalidIdResponse,
     invalidPasswordResponse,
-} from './helpers/user.js'
+} from './helpers/index.js'
 
 export class UpdateUserController {
     async execute(httpRequest) {
         try {
             const userId = httpRequest.params.userId
-            const isIdValid = checkIfIdIsValid
+            const isIdValid = checkIfIdIsValid(userId)
             if (!isIdValid) {
                 return invalidIdResponse()
             }
@@ -35,14 +35,14 @@ export class UpdateUserController {
                 })
             }
             if (params.password) {
-                const passwordIsValid = checkIfPasswordIsValid()
+                const passwordIsValid = checkIfPasswordIsValid(params.password)
                 if (!passwordIsValid) {
                     return invalidPasswordResponse()
                 }
             }
 
             if (params.email) {
-                const emailIsValid = checkIfEmailisValid()
+                const emailIsValid = checkIfEmailisValid(params.email)
 
                 if (!emailIsValid) {
                     return invalidEmailResponse()
@@ -55,6 +55,7 @@ export class UpdateUserController {
             }
             return ok(updatedUser)
         } catch (error) {
+            console.log(error)
             if (error instanceof EmailAreadyInUseError) {
                 return badRequest({ message: error.message })
             }
