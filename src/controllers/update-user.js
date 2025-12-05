@@ -1,5 +1,5 @@
 import { badRequest, internalServerError, ok } from './helpers/http.js'
-import { UpdateUserUseCase } from '../use-cases/update-user.js'
+import { UpdateUserUseCase } from '../use-cases/index.js'
 import { EmailAreadyInUseError } from '../errors/user.js'
 import {
     notFound,

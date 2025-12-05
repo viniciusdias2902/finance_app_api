@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from '../use-cases/create-user.js'
+import { CreateUserUseCase } from '../use-cases/index.js'
 import { EmailAreadyInUseError } from '../errors/user.js'
 import {
     badRequest,
@@ -27,7 +27,6 @@ export class CreateUserController {
                 }
             }
             const passwordIsValid = checkIfPasswordIsValid(params.password)
-
             if (!passwordIsValid) {
                 return invalidPasswordResponse()
             }
