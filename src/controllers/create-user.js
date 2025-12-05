@@ -1,6 +1,11 @@
 import { CreateUserUseCase } from '../use-cases/create-user.js'
 import validator from 'validator'
-import { badRequest, created, internalServerError } from './helpers.js'
+import {
+    badRequest,
+    created,
+    internalServerError,
+    notFound,
+} from './helpers.js'
 import { EmailAreadyInUseError } from '../errors/user.js'
 
 export class CreateUserController {
@@ -35,6 +40,9 @@ export class CreateUserController {
 
             const createUserUseCase = new CreateUserUseCase()
             const createdUser = await createUserUseCase.execute(params)
+            if (!createdUser) {
+                return notFound({ message: 'User not found' })
+            }
             return created(createdUser)
         } catch (error) {
             if (error instanceof EmailAreadyInUseError) {
