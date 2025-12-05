@@ -1,9 +1,10 @@
 import { badRequest, internalServerError, ok } from './helpers/http.js'
 import { UpdateUserUseCase } from '../use-cases/update-user.js'
-import validator from 'validator'
 import { EmailAreadyInUseError } from '../errors/user.js'
+import { notFound } from './helpers/http.js'
 import {
     checkIfEmailisValid,
+    checkIfIdIsValid,
     checkIfPasswordIsValid,
     invalidEmailResponse,
     invalidIdResponse,
@@ -14,7 +15,7 @@ export class UpdateUserController {
     async execute(httpRequest) {
         try {
             const userId = httpRequest.params.userId
-            const isIdValid = validator.isUUID(userId)
+            const isIdValid = checkIfIdIsValid
             if (!isIdValid) {
                 return invalidIdResponse()
             }
@@ -49,6 +50,9 @@ export class UpdateUserController {
             }
             const updateUserUseCase = new UpdateUserUseCase()
             const updatedUser = await updateUserUseCase.execute(userId, params)
+            if (!updatedUser) {
+                return notFound({ message: 'User not found' })
+            }
             return ok(updatedUser)
         } catch (error) {
             if (error instanceof EmailAreadyInUseError) {
