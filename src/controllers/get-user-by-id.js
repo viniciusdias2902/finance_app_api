@@ -1,6 +1,7 @@
 import { GetUserByIdUseCase } from '../use-cases/get-user-by-id.js'
-import { badRequest, internalServerError, ok } from './helpers.js'
+import { internalServerError, ok } from './helpers/http.js'
 import validator from 'validator'
+import { invalidIdResponse } from './helpers/user.js'
 
 export class GetUserByIdController {
     async execute(httpRequest) {
@@ -9,7 +10,7 @@ export class GetUserByIdController {
             const userId = httpRequest.params.userId
             const isUserIdValid = validator.isUUID(userId)
             if (!isUserIdValid) {
-                return badRequest({ message: 'The provided id is not valid' })
+                return invalidIdResponse()
             }
             const user = await getUserUseCase.execute(userId)
             return ok(user)
