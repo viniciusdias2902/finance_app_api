@@ -5,9 +5,7 @@ export const created = (body) => ({
 
 export const ok = (body) => ({
     statusCode: 200,
-    body: {
-        body,
-    },
+    body: body,
 })
 
 export const badRequest = (body) => ({
@@ -17,9 +15,7 @@ export const badRequest = (body) => ({
 
 export const notFound = (body) => ({
     statusCode: 404,
-    body: {
-        body,
-    },
+    body: body,
 })
 
 export const internalServerError = () => ({
